@@ -1,4 +1,4 @@
-application: symph-ios-api
+application: symph-login-api
 version: master
 runtime: python27
 api_version: 1
