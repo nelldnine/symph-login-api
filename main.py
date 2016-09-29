@@ -1,7 +1,6 @@
-import json
 import logging
 from hashlib import sha512
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from google.appengine.ext import ndb
 
 app = Flask(__name__)
@@ -39,12 +38,12 @@ def login():
             user = user[0].get()
             logging.debug(user)
             if user.password == hash_password(password):
-                return json.dumps(user.to_object())
+                return jsonify(user.to_object())
             else:
                 response['message'] = 'Invalid password'
         else:
             response['message'] = 'Invalid email'
-        return json.dumps(response)
+        return jsonify(response)
 
 
 @app.route('/register', methods=['POST'])
@@ -60,7 +59,7 @@ def register():
         user.password = hash_password(password)
         user.name = name
         user.put()
-        return json.dumps(user.to_object())
+        return jsonify(user.to_object())
     else:
         response['message'] = 'Email already exist'
-    return json.dumps(response)
+    return jsonify(response)
